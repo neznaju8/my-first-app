@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+	<h1>Список последних постов</h1>
+	<ol>
+		{% for article in article_list %}
+			<li><a href="{{ article.get_absolute_url }}">{{ article.article_title }}</a></li>
+		{% endfor %}
+	</ol>
+
+{% endblock %}

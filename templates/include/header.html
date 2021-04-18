@@ -1,0 +1,20 @@
+{% load socialaccount %}
+<nav>
+	<a href="/" class="main">Selo_production</a>
+	<a href="/add/">Добавить пост</a>
+	<a href="/all/">Все посты</a>
+	<a href="/about/">Об авторе</a>
+	<a href="/project/">О проекте</a>
+	<div class="inline log-right">
+		{% if user.is_authenticated %}
+			{% if user.socialaccount_set.all.0.get_provider %}
+				<span>{{ user.first_name }}</span>
+			{% else %}
+				<span>{{ user.username }}</span>
+			{% endif %}
+			<a class="log-button" href="{% url 'account_logout' %}">Sign Out</a>
+		{% else %}
+			<a class="log-button" href="/login/">Sign Up</a>
+		{% endif %}
+	</div>
+</nav>

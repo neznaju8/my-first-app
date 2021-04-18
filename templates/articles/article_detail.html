@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}{{ article.article_title }}{% endblock %}
+
+{% block content %}
+	<div>
+		<h1>{{ article.article_title }}</h1>
+		<p class="text">{{ article.article_text }}</p>
+		<p class="inline italic">{{ article.article_author }}</p>
+		<p class="inline italic">{{ article.article_date }}</p>
+	</div>
+
+	{% if user.is_authenticated %}
+		{% if article.article_author == request.user.username or article.article_author == request.user.first_name %}
+			<div>
+				<a class="bt-post" href="{% url 'post_edit' article.url %}">Редактировать</a>
+				<a class="bt-post" href="{% url 'post_delete' article.url %}">Удалить</a>
+			</div>
+		{% endif %}
+	{% endif %}
+
+	<div>
+		<form class="form" action='{% url "leave_comment" article.id %}' method='POST' id='formComment'>
+			{% csrf_token %}
+			<input type='hidden' name='parent' id='contactparent' value=''>
+			<textarea name='comment_text' required placeholder="Текст комментария" cols='50' rows='6' id='contactcomment'></textarea><br>
+			{% if user.is_authenticated %}
+				<button type='submit'>Оставить комментарий</button>
+			{% else %}
+				<p>Чтобы оставить комментарий, сначала авторизуйтесь!</p>
+			{% endif %}
+		</form>
+	</div>
+
+	<div>
+		{% for comment in article.get_comment %}
+			<div class="mar">
+				<img class="ava inline-block mp" src="">
+				<div class="inline-block">
+					<p class="mp inline">{{ comment.comment_author }}</p>
+					<p class="inline italic">{{ comment.comment_date }}</p>
+					<p class="com-text">{{ comment.comment_text }}</p>
+					<a href='#formComment' onclick='leaveComment("{{ comment.comment_author }}","{{ comment.id }}")'>Ответить</a>
+				</div>
+			</div>
+			{% for com in comment.comments.all %}
+				<div class="review">
+					<img class="ava inline-block mp" src="">
+					<div class="inline-block">
+						<p class="mp inline">{{ com.comment_author }}</p>
+						<p class="inline italic">{{ comment.comment_date }}</p>
+						<p class="review-text">{{ com.comment_text }}</p>
+					</div>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+
+	<script>
+		function leaveComment(comment_author, id) {
+			document.getElementById('contactparent').value = id;
+			document.getElementById('contactcomment').innerText = `${ comment_author }, `
+		}
+	</script>
+{% endblock %}

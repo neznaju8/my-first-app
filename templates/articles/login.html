@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load account socialaccount %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+
+	<div class="login-window">
+		<p class="lw-top lw-element lw-border">Авторизоваться через:</p>
+		<div class="lw-element lw-border">
+			<a href="{% url 'account_login' %}">Сайт</a>
+		</div>
+		<div class="lw-element lw-border">
+			<a href="{% provider_login_url 'vk' process='login' %}">VK</a>
+		</div>
+		<div class="lw-element">
+			<a href="{% url 'account_signup' %}">Регистрация</a>
+		</div>
+	</div>
+
+{% endblock %}

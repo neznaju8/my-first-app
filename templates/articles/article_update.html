@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование{% endblock %}
+
+{% block content %}
+	
+	<h1>Редактирование поста</h1>
+	<p>Чтобы отредактировать пост, заполните все поля и нажмите кнопку "Сохранить"!</p>
+	{% if not user.is_authenticated %}
+		<p>Чтобы изменить пост, сначала авторизуйтсь!</p>
+	{% endif %}
+	<form method='POST'>
+		{% csrf_token %}
+		<p>Название поста:</p>
+		<input type='text' required placeholder='Название поста' name='article_title'>
+		<p>Текст поста:</p>
+		<textarea name='article_text' required placeholder="Текст поста" cols='60' rows='12' id='contactcomment'></textarea><br>
+		{% if user.is_authenticated %}
+			<button class="button" type='submit'>Сохранить</button>
+		{% endif %}
+	</form>
+	
+{% endblock %}

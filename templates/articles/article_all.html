@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Все посты{% endblock %}
+
+{% block content %}
+
+	<h1>Список всех постов</h1>
+	<ol>
+		{% for article in article_list %}
+			<li><a href="{{ article.get_absolute_url }}">{{ article.article_title }}</a></li>
+		{% endfor %}
+	</ol>
+
+	{% include 'include/pagination.html' %}
+
+{% endblock %}

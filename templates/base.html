@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<link href="{% static 'css/static.css' %}" rel="stylesheet">
+		<title>{% block title %}Главная страница{% endblock %}</title>
+	</head>
+	<body>
+		<header>
+			{% include 'include/header.html' %}
+		</header>
+		<main>
+			{% block content %}
+			{% endblock %}
+		</main>
+	</body>
+</html>
